@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow, noarchive, nosnippet"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ЦИАН × magent — 03–09.08.2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root { color-scheme: light;
+  --bg:#ffffff; --panel:#ffffff; --line:#e5e3df; --line2:#f0eeea;
+  --ink:#1c1b19; --ink2:#57534e; --ink3:#8a847c;
+  --accent:#7c5cff; --ok:#1f8a5c; --bad:#c0392b; --warn:#c47f17; --neutral:#8a847c;
+  --tint:#faf9f7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 28px 72px}
+header{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:28px}
+h1{font-size:25px;letter-spacing:-.02em;margin:0 0 6px;font-weight:650}
+.meta{color:var(--ink3);font-size:13.5px}
+.meta b{color:var(--ink2);font-weight:550}
+h2{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);
+  font-weight:650;margin:38px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line2)}
+h3{font-size:14.5px;font-weight:600;margin:22px 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px}
+.kpi{border:1px solid var(--line);border-radius:11px;padding:15px 16px;background:var(--panel)}
+.kpi .v{font-size:29px;font-weight:660;letter-spacing:-.03em;line-height:1.1}
+.kpi .l{font-size:12.5px;color:var(--ink3);margin-top:5px}
+.kpi .d{font-size:12px;color:var(--ink2);margin-top:3px}
+.kpi.hl .v{color:var(--accent)}
+.kpi.warn{background:#fdf8ef;border-color:#efdfc2}
+.kpi.warn .v{color:var(--warn)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-weight:600;color:var(--ink3);font-size:11.5px;letter-spacing:.05em;
+  text-transform:uppercase;padding:0 10px 8px;border-bottom:1px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.strong{font-weight:650}
+.oid{color:var(--ink3);font-size:12px;font-variant-numeric:tabular-nums}
+.sub{display:block;color:var(--ink3);font-size:12px;margin-top:1px}
+.row-bad td{background:#fdf3f2}
+.row-warn td{background:#fbf8ef}
+.panel{border:1px solid var(--line);border-radius:11px;padding:6px 16px 10px;background:var(--panel)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+.note{border-left:3px solid var(--warn);background:#fdf8ef;padding:12px 16px;border-radius:0 8px 8px 0;
+  font-size:13.5px;color:var(--ink2);margin:14px 0}
+.note.red{border-color:var(--bad);background:#fdf3f2}
+.note b{color:var(--ink)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px}
+.d-ok{background:var(--ok)} .d-deal{background:#0e6b46} .d-bad{background:var(--bad)}
+.d-warn{background:var(--warn)} .d-neutral{background:var(--neutral)}
+.bar{display:inline-block;height:7px;border-radius:4px;background:var(--bad);opacity:.65;
+  vertical-align:1px;margin-right:7px}
+.chart{height:190px;position:relative;margin-top:6px}
+.tag-r,.tag-s{font-size:11.5px;color:var(--ink2)}
+.rbar{display:flex;align-items:center;gap:11px;margin:9px 0}
+.rbar .lb{width:78px;font-size:13px;color:var(--ink2)}
+.rbar .tr{flex:1;height:9px;background:var(--line2);border-radius:5px;overflow:hidden}
+.rbar .fl{height:100%;background:var(--accent);border-radius:5px}
+.rbar .vv{width:42px;text-align:right;font-variant-numeric:tabular-nums;font-weight:620;font-size:13px}
+#ft th{cursor:pointer;user-select:none}
+#ft th:hover{color:var(--ink)}
+.ctl{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.ctl button{font:inherit;font-size:12.5px;padding:5px 13px;border:1px solid var(--line);
+  background:#fff;border-radius:16px;cursor:pointer;color:var(--ink2)}
+.ctl button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--ink3);font-size:12.5px;line-height:1.7}
+</style></head><body><div class="wrap">
+
+<header><h1>Реклама ЦИАН × встречи в magent</h1>
+<div class="meta"><b>3 — 9 августа 2026</b> · источники: ЦИАН public API (get-calls-report, get-operations), CRM magent (cian-api-calls, objects/pokazy) · встречи уникальные, ключ «объект + клиент + дата»</div></header>
+
+<div class="kpis">
+  <div class="kpi hl"><div class="v">255</div><div class="l">звонков с ЦИАН</div><div class="d">237 с привязкой к лоту, 18 без</div></div>
+  <div class="kpi"><div class="v">75%</div><div class="l">дозвон</div><div class="d">177 из 237</div></div>
+  <div class="kpi"><div class="v">159</div><div class="l">уникальных встреч</div><div class="d">108 аренда · 51 продажа</div></div>
+  <div class="kpi warn"><div class="v">43</div><div class="l">дозвона без встречи</div><div class="d">26% от всех дозвонов</div></div>
+  <div class="kpi warn"><div class="v">54%</div><div class="l">встреч отменено</div><div class="d">58 из 108 по аренде</div></div>
+  <div class="kpi"><div class="v">2</div><div class="l">сделки</div><div class="d">обе в аренде</div></div>
+</div>
+
+<h2>Звонки по дням</h2>
+<div class="panel"><div class="chart"><canvas id="cd"></canvas></div></div>
+<div class="note">Будни держат 44–52 звонка, выходные обваливаются до 16–19. Пятница уже провальная — 27.</div>
+
+<h2>Топ-5 по звонкам — аренда квартир</h2>
+<table><thead><tr><th>ID</th><th>Объект</th><th class=num>Цена</th><th class=num>Звонков</th><th class=num>Дозвон</th>
+<th class=num>Дней в продв.</th><th class=num>Тариф</th><th class=num>Встреч</th><th class=num>Состоялось</th><th>Агент</th></tr></thead>
+<tbody><tr class="row-bad"><td class=oid>332675308</td><td><b>Руновский пер., 10С1</b><span class=sub>5к, 186 м²</span></td><td class=num>500 000 ₽/мес</td><td class='num strong'>8</td><td class=num>0</td><td class=num>2</td><td class=num>Топ</td><td class=num>1</td><td class=num>0</td><td>Горшков М.</td></tr>
+<tr><td class=oid>328662863</td><td><b>Садовническая, 57С1</b><span class=sub>4к, 150 м²</span></td><td class=num>550 000 ₽/мес</td><td class='num strong'>6</td><td class=num>4</td><td class=num>54</td><td class=num>Топ</td><td class=num>5</td><td class=num>0</td><td>Брегель П.</td></tr>
+<tr><td class=oid>330427862</td><td><b>Воронцовские Пруды, 3</b><span class=sub>4к, 178 м²</span></td><td class=num>235 000 ₽/мес</td><td class='num strong'>6</td><td class=num>4</td><td class=num>64</td><td class=num>Премиум</td><td class=num>1</td><td class=num>1</td><td>Галиев Д.</td></tr>
+<tr><td class=oid>332234802</td><td><b>пр-т 60-летия Октября, 17</b><span class=sub>3к, 108 м²</span></td><td class=num>190 000 ₽/мес</td><td class='num strong'>6</td><td class=num>3</td><td class=num>5</td><td class=num>Премиум</td><td class=num>1</td><td class=num>0</td><td>Канибор Д.</td></tr>
+<tr><td class=oid>332500174</td><td><b>Мытная, 7с1</b><span class=sub>4к, 116 м²</span></td><td class=num>300 000 ₽/мес</td><td class='num strong'>6</td><td class=num>6</td><td class=num>6</td><td class=num>Топ</td><td class=num>9</td><td class=num>2</td><td>Канибор Д.</td></tr></tbody></table>
+<div class="note red"><b>332675308</b> (Руновский пер., 500 000 ₽/мес, Максим Горшков) — 8 звонков и <b>ноль дозвонов</b>. Все восемь со статусом «занято», парами по 2–3 в минуту: люди перезванивали и бросали. Объект простоял в продвижении всего 2 дня и собрал 4 звонка в день — это лучшая отдача недели, слитая в короткие гудки.<br>
+<b>332234802</b> — 6 звонков при нуле дней продвижения на этой неделе. Трафик идёт по инерции от прошлых показов.</div>
+
+<h2>Топ-5 по звонкам — продажа квартир</h2>
+<table><thead><tr><th>ID</th><th>Объект</th><th class=num>Цена</th><th class=num>Звонков</th><th class=num>Дозвон</th>
+<th class=num>Дней в продв.</th><th class=num>Тариф</th><th class=num>Встреч</th><th>Агент</th></tr></thead>
+<tbody><tr><td class=oid>329711317</td><td><b>пр-т Вернадского, 80</b><span class=sub>2к, 47 м²</span></td><td class=num>35 000 000 ₽</td><td class='num strong'>8</td><td class=num>8</td><td class=num>66</td><td class=num>Топ</td><td class=num>6</td><td>Щеголева А.</td></tr>
+<tr><td class=oid>328477135</td><td><b>Б. Грузинская, 37С2</b><span class=sub>3к, 115 м²</span></td><td class=num>75 000 000 ₽</td><td class='num strong'>5</td><td class=num>4</td><td class=num>62</td><td class=num>Топ</td><td class=num>3</td><td>Валуева Е.</td></tr>
+<tr><td class=oid>331318227</td><td><b>Мосфильмовская, 8</b><span class=sub>4к, 129 м²</span></td><td class=num>128 000 000 ₽</td><td class='num strong'>5</td><td class=num>5</td><td class=num>45</td><td class=num>Топ</td><td class=num>2</td><td>Пулина В.</td></tr>
+<tr><td class=oid>327034281</td><td><b>Шелепихинская наб., 34к2</b><span class=sub>2к, 100 м²</span></td><td class=num>41 999 999 ₽</td><td class='num strong'>4</td><td class=num>3</td><td class=num>67</td><td class=num>Топ</td><td class=num>5</td><td>Шевцова В.</td></tr>
+<tr><td class=oid>331046351</td><td><b>Б. Ордынка, 31/12С1</b><span class=sub>5к, 185 м²</span></td><td class=num>89 000 000 ₽</td><td class='num strong'>3</td><td class=num>3</td><td class=num>40</td><td class=num>Премиум</td><td class=num>5</td><td>Пулина В.</td></tr></tbody></table>
+<div class="note"><b>329711317</b> (Вернадского, 80) — третью неделю подряд в топе: 4 → 7 → 8 звонков, дозвон всё это время 100%. Единственный лот с устойчиво растущим интересом.<br>
+Колонки «состоялось» по продаже нет: отдел не заполняет результаты встреч — все 51 запись пустая.</div>
+
+<h2>Дни в продвижении</h2>
+<div class="two"><div>
+<div class="panel"><table><thead><tr><th>Группа</th><th class=num>Объектов</th><th class=num>Звонков</th></tr></thead><tbody>
+<tr><td>Продвигались на этой неделе</td><td class="num strong">75</td><td class=num>162</td></tr>
+<tr><td>Продвигались раньше, но не сейчас</td><td class="num strong">14</td><td class=num>26</td></tr>
+<tr><td>Без платного продвижения вообще</td><td class="num strong">31</td><td class=num>49</td></tr>
+</tbody></table></div>
+<div class="note">Пятая часть трафика приходит на объекты, за которые на этой неделе не заплатили ни балла.</div>
+</div><div>
+<h3>Долго висят, звонков нет</h3>
+<div class="panel"><table><thead><tr><th>ID</th><th>Напр.</th><th class=num>Дней</th><th class=num>Звонков</th><th class=num>Тариф</th></tr></thead>
+<tbody><tr><td class=oid>307986097</td><td>продажа</td><td class='num strong'>69</td><td class=num>2</td><td class=num>Топ</td></tr>
+<tr><td class=oid>326688167</td><td>продажа</td><td class='num strong'>68</td><td class=num>2</td><td class=num>Топ</td></tr>
+<tr><td class=oid>330475539</td><td>аренда</td><td class='num strong'>68</td><td class=num>1</td><td class=num>Топ</td></tr>
+<tr><td class=oid>325104482</td><td>продажа</td><td class='num strong'>67</td><td class=num>2</td><td class=num>Топ</td></tr>
+<tr><td class=oid>329821247</td><td>аренда</td><td class='num strong'>66</td><td class=num>1</td><td class=num>Топ</td></tr>
+<tr><td class=oid>329245268</td><td>аренда</td><td class='num strong'>65</td><td class=num>1</td><td class=num>Топ</td></tr></tbody></table></div>
+<div class="note red"><b>29 объектов провисели 40+ дней и собрали 1–2 звонка</b> — суммарно 1639 оплаченных дней. Держать лот на Топе два месяца ради одного звонка — это автоплатёж, а не продвижение.</div>
+</div></div>
+<div class="note"><b>Корреляция «дней продвижения на неделе» и числа звонков: −0,01.</b> Связи нет вообще. Количество оплаченных дней само по себе не приносит звонков — решают цена, фотографии и актуальность лота.</div>
+
+<h2>Итог встреч</h2>
+<div class="two"><div>
+<h3>Аренда — 108 уникальных встреч</h3>
+<div class="panel"><table><tbody><tr><td><span class='dot d-ok'></span>Состоялась</td><td class='num strong'>37</td><td class=num>34%</td></tr>
+<tr><td><span class='dot d-deal'></span>Состоялась сделка</td><td class='num strong'>2</td><td class=num>2%</td></tr>
+<tr><td><span class='dot d-bad'></span>Отменена нами</td><td class='num strong'>23</td><td class=num>21%</td></tr>
+<tr><td><span class='dot d-warn'></span>Отменена собственником</td><td class='num strong'>22</td><td class=num>20%</td></tr>
+<tr><td><span class='dot d-warn'></span>Отменена клиентом</td><td class='num strong'>13</td><td class=num>12%</td></tr>
+<tr><td><span class='dot d-neutral'></span>Перенесена</td><td class='num strong'>4</td><td class=num>4%</td></tr>
+<tr><td><span class='dot d-neutral'></span>Не заполнен</td><td class='num strong'>7</td><td class=num>6%</td></tr></tbody></table></div>
+<h3>Отмены: по чьей вине</h3>
+<div class="panel"><table><thead><tr><th>Инициатор</th><th class=num>Встреч</th><th class=num>Доля отмен</th></tr></thead><tbody><tr><td>Мы сами</td><td class=num><span class=bar style='width:88.0px'></span> 23</td><td class='num strong'>40%</td></tr>
+<tr><td>Собственник</td><td class=num><span class=bar style='width:83.60000000000001px'></span> 22</td><td class='num strong'>38%</td></tr>
+<tr><td>Клиент</td><td class=num><span class=bar style='width:48.400000000000006px'></span> 13</td><td class='num strong'>22%</td></tr></tbody></table></div>
+<div class="note">Из 58 отмен <b>45 приходятся на нас и собственника</b> — то есть на сторону, которой мы управляем или с которой договариваемся. Клиент виноват лишь в каждой пятой отмене.</div>
+</div><div>
+<h3>Кто отменяет: разбивка по агентам</h3>
+<div class="panel"><table><thead><tr><th>Агент</th><th class=num>Всего</th><th class=num>Нами</th><th class=num>Собств.</th><th class=num>Клиент</th></tr></thead>
+<tbody><tr><td>Канибор Денис</td><td class='num strong'>8</td><td class=num>0</td><td class=num>6</td><td class=num>2</td></tr>
+<tr><td>Галиев Динар</td><td class='num strong'>6</td><td class=num>5</td><td class=num>0</td><td class=num>1</td></tr>
+<tr><td>Шавильданова Ксения</td><td class='num strong'>6</td><td class=num>3</td><td class=num>2</td><td class=num>1</td></tr>
+<tr><td>Брегель Полина</td><td class='num strong'>6</td><td class=num>3</td><td class=num>1</td><td class=num>2</td></tr>
+<tr><td>Степанков Илья</td><td class='num strong'>6</td><td class=num>5</td><td class=num>0</td><td class=num>1</td></tr>
+<tr><td>Мефтахутдинов Тимур</td><td class='num strong'>5</td><td class=num>1</td><td class=num>1</td><td class=num>3</td></tr></tbody></table></div>
+<div class="note">У <b>Дениса Канибора</b> 6 отмен из 8 — от собственников: договорённости срываются на стороне владельцев.<br>
+У <b>Динара Галиева</b> и <b>Ильи Степанкова</b> по 5 отмен «нами» — это уже внутренняя дисциплина.</div>
+</div></div>
+<div class="note red"><b>Продажа: 51 уникальная встреча, у всех статус не проставлен.</b> Вторую неделю подряд. Итог встреч по продаже посчитать невозможно.</div>
+
+<h2>Звонки без последующей встречи</h2>
+<div class="kpis">
+  <div class="kpi"><div class="v">221</div><div class="l">звонок по объектам в CRM</div><div class="d">167 из них дозвоны</div></div>
+  <div class="kpi warn"><div class="v">43</div><div class="l">дозвона без встречи</div><div class="d">26% дозвонов впустую</div></div>
+  <div class="kpi"><div class="v">33 / 10</div><div class="l">аренда / продажа</div><div class="d">дозвонов без встречи</div></div>
+  <div class="kpi warn"><div class="v">28</div><div class="l">объектов с нулём встреч</div><div class="d">885 оплаченных дней продвижения</div></div>
+</div>
+<h3>Где дозвоны не превращаются во встречи</h3>
+<table><thead><tr><th>ID</th><th>Адрес</th><th class=num>Дозвонов без встречи</th><th class=num>Всего дозвонов</th><th class=num>Встреч</th><th class=num>Дней в продв.</th><th>Агент</th></tr></thead>
+<tbody><tr><td class=oid>331187954</td><td>Маршала Тимошенко</td><td class='num strong'>3</td><td class=num>3</td><td class=num>0</td><td class=num>35</td><td>—</td></tr>
+<tr><td class=oid>329139650</td><td>1-я Тверская-Ямская улица</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>64</td><td>—</td></tr>
+<tr><td class=oid>330301066</td><td>Тихвинская улица</td><td class='num strong'>2</td><td class=num>4</td><td class=num>1</td><td class=num>49</td><td>Султановская Н.</td></tr>
+<tr><td class=oid>330543183</td><td>Авиаконструктора Микояна</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>64</td><td>—</td></tr>
+<tr><td class=oid>330643849</td><td>Красная Пресня</td><td class='num strong'>2</td><td class=num>2</td><td class=num>1</td><td class=num>28</td><td>Мефтахутдинов Т.</td></tr>
+<tr><td class=oid>330795911</td><td>Шмитовский проезд</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>59</td><td>—</td></tr>
+<tr><td class=oid>331496485</td><td>Мясницкая улица</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>0</td><td>—</td></tr>
+<tr><td class=oid>331893591</td><td>Казарменный переулок</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>0</td><td>—</td></tr>
+<tr><td class=oid>332587326</td><td>Большая Никитская улица</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>0</td><td>—</td></tr>
+<tr><td class=oid>332659972</td><td>проспект Вернадского</td><td class='num strong'>2</td><td class=num>2</td><td class=num>1</td><td class=num>1</td><td>Мефтахутдинов Т.</td></tr>
+<tr><td class=oid>332698388</td><td>Мироновская улица</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>0</td><td>—</td></tr></tbody></table>
+<div class="note">Звонок считается «без встречи», если по этому объекту нет ни одной уникальной встречи с датой, равной дате звонка или позже. Недозвоны сюда не входят — они физически не могли привести к встрече.</div>
+
+<h3>Объекты со звонками и нулём встреч</h3>
+<table><thead><tr><th>ID</th><th>Адрес</th><th>Напр.</th><th class=num>Звонков</th><th class=num>Дозвон</th><th class=num>Дней в продв.</th><th class=num>Тариф</th></tr></thead>
+<tbody><tr><td class=oid>331187954</td><td>Маршала Тимошенко</td><td class=tag-r>аренда</td><td class='num strong'>3</td><td class=num>3</td><td class=num>35</td><td class=num>С</td></tr>
+<tr><td class=oid>329139650</td><td>1-я Тверская-Ямская улица</td><td class=tag-r>аренда</td><td class='num strong'>2</td><td class=num>2</td><td class=num>64</td><td class=num>П</td></tr>
+<tr><td class=oid>330543183</td><td>Авиаконструктора Микояна</td><td class=tag-r>аренда</td><td class='num strong'>2</td><td class=num>2</td><td class=num>64</td><td class=num>Т</td></tr>
+<tr><td class=oid>330795911</td><td>Шмитовский проезд</td><td class=tag-r>продажа</td><td class='num strong'>2</td><td class=num>2</td><td class=num>59</td><td class=num>Т</td></tr>
+<tr><td class=oid>331496485</td><td>Мясницкая улица</td><td class=tag-r>аренда</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>—</td></tr>
+<tr><td class=oid>331893591</td><td>Казарменный переулок</td><td class=tag-r>аренда</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>—</td></tr>
+<tr><td class=oid>332587326</td><td>Большая Никитская улица</td><td class=tag-r>аренда</td><td class='num strong'>5</td><td class=num>2</td><td class=num>0</td><td class=num>—</td></tr>
+<tr><td class=oid>332698388</td><td>Мироновская улица</td><td class=tag-r>аренда</td><td class='num strong'>2</td><td class=num>2</td><td class=num>0</td><td class=num>—</td></tr>
+<tr><td class=oid>330475539</td><td>Василисы Кожиной</td><td class=tag-r>аренда</td><td class='num strong'>1</td><td class=num>1</td><td class=num>68</td><td class=num>Т</td></tr>
+<tr><td class=oid>329821247</td><td>Чапаевский переулок</td><td class=tag-r>аренда</td><td class='num strong'>1</td><td class=num>1</td><td class=num>66</td><td class=num>Т</td></tr>
+<tr><td class=oid>323957420</td><td>Чистопрудный бульвар</td><td class=tag-r>продажа</td><td class='num strong'>1</td><td class=num>1</td><td class=num>62</td><td class=num>П</td></tr>
+<tr><td class=oid>328369102</td><td>Новый Арбат</td><td class=tag-r>аренда</td><td class='num strong'>2</td><td class=num>1</td><td class=num>58</td><td class=num>П</td></tr></tbody></table>
+
+<h2>Все объекты со звонками — 120</h2>
+<div class="ctl">
+  <button class="on" data-f="all">Все</button><button data-f="r">Аренда</button><button data-f="s">Продажа</button>
+  <button data-f="dead">Без встреч</button><button data-f="nm">Дозвоны без встречи</button>
+</div>
+<table id="ft"><thead><tr>
+<th data-k="id">ID</th><th data-k="addr">Адрес</th><th data-k="deal">Напр.</th>
+<th data-k="calls" class=num>Звонков</th><th data-k="ok" class=num>Дозвон</th>
+<th data-k="pall" class=num>Дней продв.</th><th data-k="pweek" class=num>Из них на неделе</th><th data-k="tier">Тариф</th>
+<th data-k="meet" class=num>Встреч</th><th data-k="sost" class=num>Сост.</th>
+<th data-k="noMeetOk" class=num>Дозв. без встречи</th><th data-k="agent">Агент</th>
+</tr></thead><tbody id="fb"></tbody></table>
+
+<div class="foot">
+<b>Методика.</b> Звонки — <code>get-calls-report</code> за 03–09.08.2026. Дни в продвижении — <code>get-operations</code> за 01.06–09.08.2026: считаются уникальные даты, в которые по объявлению прошла оплата Стандарта, Премиума или Топа; «дней в продв.» — всего за два месяца, «из них на неделе» — внутри анализируемого периода. Тариф — максимальный из применявшихся.
+Встречи — <code>objects/pokazy</code>, дедуплицированы по ключу «объект + клиент + дата» (телефон, если указан, иначе имя); записи без клиента не схлопываются.<br>
+<b>Ограничения.</b> 18 звонков из 255 пришли без привязки к объявлению — в разрезах по объектам их нет. 11 объектов со звонками отсутствуют в CRM (16 звонков) — встречи по ним подтвердить нечем, в таблице стоит прочерк. Колонка «Сост.» по продаже всегда 0: статусы не заполняются, а не результат равен нулю.
+</div>
+
+</div>
+<script>
+const ROWS=[{"id": "301573903", "deal": "s", "calls": 2, "ok": 2, "meet": 1, "sost": 0, "agent": "Качевская П.", "addr": "Мерзляковский переулок", "pall": 59, "pweek": 0, "tier": "П", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "307986097", "deal": "s", "calls": 2, "ok": 1, "meet": 2, "sost": 0, "agent": "Яшукова Н.", "addr": "Москва", "pall": 69, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "312727133", "deal": "s", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Султановская Н.", "addr": "Кутузовский проспект", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "315825356", "deal": "s", "calls": 2, "ok": 1, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": null, "noMeetOk": null}, {"id": "317202000", "deal": "s", "calls": 2, "ok": 1, "meet": 1, "sost": 0, "agent": "Мартынова О.", "addr": "Покровка", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "321684951", "deal": "r", "calls": 1, "ok": 0, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": null, "noMeetOk": null}, {"id": "321684954", "deal": "r", "calls": 1, "ok": 0, "meet": 1, "sost": 0, "agent": "Бархатова В.", "addr": "КП Hygge House", "pall": 40, "pweek": 0, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "322359989", "deal": "s", "calls": 1, "ok": 1, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": null, "noMeetOk": null}, {"id": "323768790", "deal": "r", "calls": 2, "ok": 1, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": null, "noMeetOk": null}, {"id": "323957420", "deal": "s", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Чистопрудный бульвар", "pall": 62, "pweek": 7, "tier": "П", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "325104482", "deal": "s", "calls": 2, "ok": 2, "meet": 1, "sost": 0, "agent": "Дунаевская А.", "addr": "Советской Армии", "pall": 67, "pweek": 5, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "325864362", "deal": "r", "calls": 2, "ok": 1, "meet": 1, "sost": 0, "agent": "Галиев Д.", "addr": "Авиационная улица", "pall": 20, "pweek": 7, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "326550103", "deal": "r", "calls": 1, "ok": 1, "meet": 3, "sost": 3, "agent": "Галиев Д.", "addr": "Гончарная", "pall": 34, "pweek": 5, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "326688167", "deal": "s", "calls": 2, "ok": 2, "meet": 3, "sost": 0, "agent": "Шевцова В.", "addr": "Минская улица", "pall": 68, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "327034281", "deal": "s", "calls": 4, "ok": 3, "meet": 5, "sost": 0, "agent": "Шевцова В.", "addr": "Шелепихинская набережная", "pall": 67, "pweek": 7, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "327279839", "deal": "s", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Климентовский переулок", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "327880805", "deal": "r", "calls": 1, "ok": 0, "meet": 0, "sost": 0, "agent": "", "addr": "Улофа Пальме", "pall": 51, "pweek": 3, "tier": "П", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "327956984", "deal": "r", "calls": 3, "ok": 2, "meet": 3, "sost": 0, "agent": "Шавильданова К.", "addr": "Большой Патриарший переулок", "pall": 61, "pweek": 6, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "328258203", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 1, "agent": "Горшков М.", "addr": "Филипповский переулок", "pall": 60, "pweek": 2, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "328369102", "deal": "r", "calls": 2, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Новый Арбат", "pall": 58, "pweek": 7, "tier": "П", "noMeetCalls": 2, "noMeetOk": 1}, {"id": "328477135", "deal": "s", "calls": 5, "ok": 4, "meet": 3, "sost": 0, "agent": "Валуева Е.", "addr": "Большая Грузинская улица", "pall": 62, "pweek": 1, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "328642805", "deal": "r", "calls": 2, "ok": 1, "meet": 1, "sost": 0, "agent": "Кокушкина О.", "addr": "Академика Павлова", "pall": 40, "pweek": 0, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "328662863", "deal": "r", "calls": 6, "ok": 4, "meet": 5, "sost": 0, "agent": "Брегель П.", "addr": "Садовническая улица", "pall": 54, "pweek": 5, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "328908751", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 1, "agent": "Султановская Н.", "addr": "Лаврушинский переулок", "pall": 59, "pweek": 0, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "328998939", "deal": "s", "calls": 2, "ok": 2, "meet": 3, "sost": 0, "agent": "Алиева С.", "addr": "набережная Тараса Шевченко", "pall": 63, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "329139650", "deal": "r", "calls": 2, "ok": 2, "meet": 0, "sost": 0, "agent": "", "addr": "1-я Тверская-Ямская улица", "pall": 64, "pweek": 5, "tier": "П", "noMeetCalls": 2, "noMeetOk": 2}, {"id": "329245268", "deal": "r", "calls": 1, "ok": 1, "meet": 2, "sost": 0, "agent": "Степанков И.", "addr": "Александра Невского", "pall": 65, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "329429344", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Шавильданова К.", "addr": "Мосфильмовская улица", "pall": 40, "pweek": 0, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "329444454", "deal": "s", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Янковского", "pall": 45, "pweek": 0, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "329478462", "deal": "s", "calls": 1, "ok": 1, "meet": 4, "sost": 0, "agent": "Скоробогатова Ю.", "addr": "Бережковская набережная", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "329480773", "deal": "s", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Пулина В.", "addr": "Ленинградский проспект", "pall": 63, "pweek": 6, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "329670154", "deal": "r", "calls": 2, "ok": 2, "meet": 1, "sost": 1, "agent": "Мефтахутдинов Т.", "addr": "Ленинградский проспект", "pall": 45, "pweek": 1, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "329711317", "deal": "s", "calls": 8, "ok": 8, "meet": 6, "sost": 0, "agent": "Щеголева А.", "addr": "проспект Вернадского", "pall": 66, "pweek": 7, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "329750837", "deal": "r", "calls": 3, "ok": 2, "meet": 3, "sost": 0, "agent": "Мефтахутдинов Т.", "addr": "Ружейный переулок", "pall": 16, "pweek": 4, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "329817865", "deal": "r", "calls": 1, "ok": 0, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 62, "pweek": 7, "tier": "Т", "noMeetCalls": null, "noMeetOk": null}, {"id": "329821247", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Чапаевский переулок", "pall": 66, "pweek": 6, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "330060866", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Викторенко", "pall": 47, "pweek": 7, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "330126213", "deal": "r", "calls": 3, "ok": 3, "meet": 1, "sost": 1, "agent": "Мефтахутдинов Т.", "addr": "Поклонная улица", "pall": 44, "pweek": 5, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330128056", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 1, "agent": "Султановская Н.", "addr": "Пречистенка", "pall": 4, "pweek": 3, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330263661", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Таганцев А.", "addr": "Можайское шоссе", "pall": 31, "pweek": 0, "tier": "С", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330301066", "deal": "r", "calls": 5, "ok": 4, "meet": 1, "sost": 1, "agent": "Султановская Н.", "addr": "Тихвинская улица", "pall": 49, "pweek": 0, "tier": "П", "noMeetCalls": 3, "noMeetOk": 2}, {"id": "330384530", "deal": "s", "calls": 2, "ok": 2, "meet": 2, "sost": 0, "agent": "Мартынова О.", "addr": "Нижние Мневники", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330389795", "deal": "r", "calls": 2, "ok": 1, "meet": 1, "sost": 1, "agent": "Султановская Н.", "addr": "Каретный Ряд", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "330418359", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "1812 года", "pall": 49, "pweek": 0, "tier": "П", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "330427862", "deal": "r", "calls": 6, "ok": 4, "meet": 1, "sost": 1, "agent": "Галиев Д.", "addr": "Воронцовские Пруды", "pall": 64, "pweek": 6, "tier": "П", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "330442172", "deal": "r", "calls": 2, "ok": 0, "meet": 0, "sost": 0, "agent": "", "addr": "Большая Ордынка", "pall": 58, "pweek": 3, "tier": "Т", "noMeetCalls": 2, "noMeetOk": 0}, {"id": "330475537", "deal": "s", "calls": 1, "ok": 0, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": null, "noMeetOk": null}, {"id": "330475539", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Василисы Кожиной", "pall": 68, "pweek": 7, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "330543182", "deal": "r", "calls": 2, "ok": 0, "meet": 3, "sost": 0, "agent": "Кильдиева А.", "addr": "Авиационная улица", "pall": 21, "pweek": 0, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "330543183", "deal": "r", "calls": 2, "ok": 2, "meet": 0, "sost": 0, "agent": "", "addr": "Авиаконструктора Микояна", "pall": 64, "pweek": 2, "tier": "Т", "noMeetCalls": 2, "noMeetOk": 2}, {"id": "330643849", "deal": "r", "calls": 3, "ok": 2, "meet": 1, "sost": 1, "agent": "Мефтахутдинов Т.", "addr": "Красная Пресня", "pall": 28, "pweek": 7, "tier": "Т", "noMeetCalls": 2, "noMeetOk": 2}, {"id": "330695344", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Галиев Д.", "addr": "Минская улица", "pall": 34, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330751523", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 1, "agent": "Галиев Д.", "addr": "Крылатские Холмы", "pall": 53, "pweek": 0, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330776623", "deal": "s", "calls": 1, "ok": 0, "meet": 0, "sost": 0, "agent": "", "addr": "Мосфильмовская улица", "pall": 20, "pweek": 7, "tier": "С", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "330795911", "deal": "s", "calls": 2, "ok": 2, "meet": 0, "sost": 0, "agent": "", "addr": "Шмитовский проезд", "pall": 59, "pweek": 7, "tier": "Т", "noMeetCalls": 2, "noMeetOk": 2}, {"id": "330803488", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 1, "agent": "Мефтахутдинов Т.", "addr": "Шмитовский проезд", "pall": 47, "pweek": 2, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330873699", "deal": "r", "calls": 1, "ok": 1, "meet": 2, "sost": 1, "agent": "Горшков М.", "addr": "Ленинградское шоссе", "pall": 48, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330879801", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Шмитовский проезд", "pall": 27, "pweek": 3, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "330986718", "deal": "r", "calls": 1, "ok": 1, "meet": 2, "sost": 0, "agent": "Шавильданова К.", "addr": "Минская улица", "pall": 38, "pweek": 4, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "330999670", "deal": "r", "calls": 3, "ok": 3, "meet": 3, "sost": 0, "agent": "Аникеева А.", "addr": "проезд Березовой Рощи", "pall": 49, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331046351", "deal": "s", "calls": 3, "ok": 3, "meet": 5, "sost": 0, "agent": "Пулина В.", "addr": "Большая Ордынка", "pall": 40, "pweek": 7, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331117476", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Бойцов Д.", "addr": "Новосущевская улица", "pall": 18, "pweek": 1, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331187954", "deal": "r", "calls": 3, "ok": 3, "meet": 0, "sost": 0, "agent": "", "addr": "Маршала Тимошенко", "pall": 35, "pweek": 7, "tier": "С", "noMeetCalls": 3, "noMeetOk": 3}, {"id": "331318227", "deal": "s", "calls": 5, "ok": 5, "meet": 2, "sost": 0, "agent": "Пулина В.", "addr": "Мосфильмовская улица", "pall": 45, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331355763", "deal": "s", "calls": 2, "ok": 2, "meet": 1, "sost": 0, "agent": "Щеголева А.", "addr": "Шмитовский проезд", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "331368008", "deal": "r", "calls": 2, "ok": 2, "meet": 2, "sost": 1, "agent": "Яшукова Н.", "addr": "Москва", "pall": 39, "pweek": 7, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331420110", "deal": "s", "calls": 2, "ok": 2, "meet": 3, "sost": 0, "agent": "Пулина В.", "addr": "Мосфильмовская улица", "pall": 24, "pweek": 5, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331496485", "deal": "r", "calls": 2, "ok": 2, "meet": 0, "sost": 0, "agent": "", "addr": "Мясницкая улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 2, "noMeetOk": 2}, {"id": "331497502", "deal": "s", "calls": 1, "ok": 0, "meet": 0, "sost": 0, "agent": "", "addr": "Староконюшенный переулок", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "331518687", "deal": "r", "calls": 3, "ok": 3, "meet": 3, "sost": 1, "agent": "Кокушкина О.", "addr": "Истринская улица", "pall": 37, "pweek": 5, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331566486", "deal": "r", "calls": 2, "ok": 1, "meet": 3, "sost": 2, "agent": "Степанков И.", "addr": "Ленинградский проспект", "pall": 38, "pweek": 5, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331629369", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Поклонная улица", "pall": 37, "pweek": 7, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "331681088", "deal": "s", "calls": 1, "ok": 0, "meet": 1, "sost": 0, "agent": "Кильдиева А.", "addr": "Мосфильмовская улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331694032", "deal": "r", "calls": 3, "ok": 2, "meet": 5, "sost": 1, "agent": "Мефтахутдинов Т.", "addr": "Кастанаевская улица", "pall": 26, "pweek": 2, "tier": "П", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "331703942", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Тверская улица", "pall": 26, "pweek": 5, "tier": "Т", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "331740996", "deal": "r", "calls": 4, "ok": 4, "meet": 3, "sost": 2, "agent": "Кокушкина О.", "addr": "Фрунзенская набережная", "pall": 25, "pweek": 4, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331768315", "deal": "r", "calls": 1, "ok": 1, "meet": 2, "sost": 0, "agent": "Кильдиева А.", "addr": "Поклонная улица", "pall": 7, "pweek": 0, "tier": "С", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331780717", "deal": "r", "calls": 2, "ok": 1, "meet": 1, "sost": 0, "agent": "Брегель П.", "addr": "1-й Сетуньский проезд", "pall": 7, "pweek": 3, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "331801057", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Большой Харитоньевский переулок", "pall": 23, "pweek": 2, "tier": "П", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "331893591", "deal": "r", "calls": 2, "ok": 2, "meet": 0, "sost": 0, "agent": "", "addr": "Казарменный переулок", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 2, "noMeetOk": 2}, {"id": "331928948", "deal": "r", "calls": 2, "ok": 2, "meet": 2, "sost": 0, "agent": "API_запрос E.", "addr": "Долгоруковская улица", "pall": 15, "pweek": 2, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332061868", "deal": "r", "calls": 1, "ok": 1, "meet": 0, "sost": 0, "agent": "", "addr": "Фрунзенская набережная", "pall": 16, "pweek": 5, "tier": "П", "noMeetCalls": 1, "noMeetOk": 1}, {"id": "332121038", "deal": "r", "calls": 2, "ok": 2, "meet": 1, "sost": 1, "agent": "Николаевская В.", "addr": "Ленинский проспект", "pall": 7, "pweek": 6, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332131363", "deal": "s", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Кильдиева А.", "addr": "Поклонная улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332152879", "deal": "s", "calls": 1, "ok": 1, "meet": 2, "sost": 0, "agent": "Дунаевская А.", "addr": "Большая Садовая улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332160601", "deal": "r", "calls": 2, "ok": 2, "meet": 1, "sost": 0, "agent": "Горшков М.", "addr": "Мантулинская улица", "pall": 10, "pweek": 6, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332181070", "deal": "r", "calls": 1, "ok": 0, "meet": 0, "sost": 0, "agent": "", "addr": "Ружейный переулок", "pall": 10, "pweek": 0, "tier": "П", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "332211824", "deal": "r", "calls": 1, "ok": 1, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": null, "noMeetOk": null}, {"id": "332234802", "deal": "r", "calls": 6, "ok": 3, "meet": 1, "sost": 0, "agent": "Канибор Д.", "addr": "проспект 60-летия Октября", "pall": 5, "pweek": 0, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332240856", "deal": "r", "calls": 1, "ok": 0, "meet": 1, "sost": 0, "agent": "Султановская Н.", "addr": "Скатертный переулок", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332316344", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Островская А.", "addr": "Нежинская улица", "pall": 10, "pweek": 6, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332325246", "deal": "r", "calls": 2, "ok": 1, "meet": 2, "sost": 0, "agent": "Аникеева А.", "addr": "Казарменный переулок", "pall": 5, "pweek": 3, "tier": "С", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332375595", "deal": "r", "calls": 1, "ok": 0, "meet": 0, "sost": 0, "agent": "", "addr": "Малая Бронная улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "332407092", "deal": "r", "calls": 1, "ok": 0, "meet": 1, "sost": 0, "agent": "Галиев Д.", "addr": "Краснопресненская набережная", "pall": 10, "pweek": 7, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332411856", "deal": "s", "calls": 2, "ok": 2, "meet": 2, "sost": 0, "agent": "Алиева С.", "addr": "Благовещенский переулок", "pall": 9, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332413317", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Галиев Д.", "addr": "Рочдельская улица", "pall": 12, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332428470", "deal": "r", "calls": 1, "ok": 0, "meet": 1, "sost": 1, "agent": "Султановская Н.", "addr": "Докучаев переулок", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332446494", "deal": "r", "calls": 2, "ok": 2, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": null, "noMeetOk": null}, {"id": "332479205", "deal": "r", "calls": 1, "ok": 0, "meet": 0, "sost": 0, "agent": "", "addr": "Кооперативная улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "332500174", "deal": "r", "calls": 6, "ok": 6, "meet": 9, "sost": 2, "agent": "Канибор Д.", "addr": "Мытная улица", "pall": 6, "pweek": 5, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332502894", "deal": "r", "calls": 2, "ok": 1, "meet": 3, "sost": 3, "agent": "Канибор Д.", "addr": "Красных Зорь", "pall": 5, "pweek": 5, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332509238", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Султановская Н.", "addr": "Ходынский бульвар", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332509962", "deal": "s", "calls": 2, "ok": 1, "meet": 1, "sost": 0, "agent": "Яшукова Н.", "addr": "пос. Мещерский", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332511595", "deal": "r", "calls": 2, "ok": 2, "meet": 1, "sost": 0, "agent": "Султановская Н.", "addr": "1-я Квесисская улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332511598", "deal": "r", "calls": 2, "ok": 1, "meet": 2, "sost": 1, "agent": "Султановская Н.", "addr": "Старый Зыковский проезд", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 1, "noMeetOk": 0}, {"id": "332515333", "deal": "r", "calls": 2, "ok": 2, "meet": 3, "sost": 1, "agent": "Степанков И.", "addr": "Ленинградский проспект", "pall": 9, "pweek": 7, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332538661", "deal": "r", "calls": 2, "ok": 1, "meet": 1, "sost": 0, "agent": "Степанков И.", "addr": "2-я Брестская улица", "pall": 3, "pweek": 3, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332551002", "deal": "r", "calls": 3, "ok": 2, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 6, "pweek": 6, "tier": "П", "noMeetCalls": null, "noMeetOk": null}, {"id": "332570718", "deal": "r", "calls": 1, "ok": 1, "meet": 2, "sost": 1, "agent": "Горшков М.", "addr": "Поклонная улица", "pall": 5, "pweek": 5, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332587326", "deal": "r", "calls": 5, "ok": 2, "meet": 0, "sost": 0, "agent": "", "addr": "Большая Никитская улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 5, "noMeetOk": 2}, {"id": "332589911", "deal": "r", "calls": 1, "ok": 0, "meet": 2, "sost": 1, "agent": "Галиев Д.", "addr": "Ленинградский проспект", "pall": 5, "pweek": 5, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332613100", "deal": "r", "calls": 1, "ok": 1, "meet": 3, "sost": 3, "agent": "Кокушкина О.", "addr": "Большая Садовая улица", "pall": 5, "pweek": 5, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332626416", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 0, "agent": "Бойцов Д.", "addr": "Малый Патриарший переулок", "pall": 5, "pweek": 5, "tier": "П", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332658766", "deal": "r", "calls": 1, "ok": 1, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 5, "pweek": 5, "tier": "П", "noMeetCalls": null, "noMeetOk": null}, {"id": "332659972", "deal": "r", "calls": 2, "ok": 2, "meet": 1, "sost": 1, "agent": "Мефтахутдинов Т.", "addr": "проспект Вернадского", "pall": 1, "pweek": 1, "tier": "Т", "noMeetCalls": 2, "noMeetOk": 2}, {"id": "332661044", "deal": "r", "calls": 2, "ok": 2, "meet": 2, "sost": 1, "agent": "Галиев Д.", "addr": "Поклонная улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332663346", "deal": "r", "calls": 1, "ok": 1, "meet": null, "sost": null, "agent": "", "addr": "", "pall": 4, "pweek": 4, "tier": "Т", "noMeetCalls": null, "noMeetOk": null}, {"id": "332675308", "deal": "r", "calls": 8, "ok": 0, "meet": 1, "sost": 0, "agent": "Горшков М.", "addr": "Руновский переулок", "pall": 2, "pweek": 2, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}, {"id": "332698388", "deal": "r", "calls": 2, "ok": 2, "meet": 0, "sost": 0, "agent": "", "addr": "Мироновская улица", "pall": 0, "pweek": 0, "tier": "—", "noMeetCalls": 2, "noMeetOk": 2}, {"id": "332699567", "deal": "r", "calls": 1, "ok": 1, "meet": 1, "sost": 1, "agent": "Султановская Н.", "addr": "Малый Новопесковский переулок", "pall": 2, "pweek": 2, "tier": "Т", "noMeetCalls": 0, "noMeetOk": 0}];
+new Chart(document.getElementById('cd'),{type:'bar',
+ data:{labels:["пн 03.08", "вт 04.08", "ср 05.08", "чт 06.08", "пт 07.08", "сб 08.08", "вс 09.08"],datasets:[{data:[50, 52, 47, 44, 27, 16, 19],backgroundColor:'#7c5cff',borderRadius:5,barPercentage:.62}]},
+ options:{responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{display:false},tooltip:{displayColors:false,callbacks:{label:c=>c.parsed.y+' звонков'}}},
+  scales:{y:{beginAtZero:true,grid:{color:'#f0eeea'},border:{display:false},ticks:{color:'#8a847c',font:{size:11},stepSize:20}},
+   x:{grid:{display:false},border:{color:'#e5e3df'},ticks:{color:'#57534e',font:{size:11.5}}}}}});
+let filt='all', sk='calls', sd=-1;
+function render(){
+ let d=ROWS.filter(r=> filt==='all'?true: filt==='dead'?r.meet===0: filt==='nm'?r.noMeetOk>=1: r.deal===filt);
+ d.sort((a,b)=>{let x=a[sk],y=b[sk];
+  if(x===null||x===undefined) return 1; if(y===null||y===undefined) return -1;
+  if(typeof x==='number') return (x-y)*sd;
+  return String(x).localeCompare(String(y),'ru')*sd;});
+ const dash='<span style="color:#8a847c">—</span>';
+ document.getElementById('fb').innerHTML=d.map(r=>{
+  const cls = r.meet===null?' class="row-warn"':(r.meet===0&&r.ok>=1?' class="row-bad"':'');
+  const mv = r.meet===null?dash:r.meet;
+  const sv = r.meet===null?dash:(r.deal==='s'?dash:r.sost);
+  const nv = r.noMeetOk===null?dash:r.noMeetOk;
+  return `<tr${cls}><td class=oid>${r.id}</td><td>${r.addr||dash}</td><td class=tag-r>${r.deal==='r'?'аренда':(r.deal==='s'?'продажа':'—')}</td>`+
+   `<td class="num strong">${r.calls}</td><td class=num>${r.ok}</td><td class=num>${r.pall}</td><td class=num>${r.pweek}</td><td>${r.tier}</td>`+
+   `<td class=num>${mv}</td><td class=num>${sv}</td><td class=num>${nv}</td><td>${r.agent||dash}</td></tr>`;
+ }).join('');
+}
+document.querySelectorAll('#ft th').forEach(th=>th.onclick=()=>{const k=th.dataset.k; sd=(k===sk)?-sd:-1; sk=k; render();});
+document.querySelectorAll('.ctl button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.ctl button').forEach(x=>x.classList.remove('on'));
+ b.classList.add('on'); filt=b.dataset.f; render();});
+render();
+</script></body></html>
