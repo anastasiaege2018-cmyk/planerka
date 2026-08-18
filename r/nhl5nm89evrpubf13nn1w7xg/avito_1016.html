@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дашборд Авито · 10–16 августа 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#242c3a;
+  --txt:#e6edf3; --mut:#8b98a9; --dim:#5c6a7d;
+  --rent:#4f8cff; --sale:#ff9f43; --fav:#c77dff; --ok:#2ecc71; --bad:#ff5c5c;
+}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;padding:32px 28px 60px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:26px}
+h1{font-size:26px;font-weight:700;letter-spacing:-.4px}
+.sub{color:var(--mut);font-size:13px;margin-top:6px}
+.period{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:13px;color:var(--mut)}
+.period b{color:var(--txt);font-weight:600}
+
+h2{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);font-weight:700;margin:34px 0 14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{position:relative;overflow:hidden}
+.kpi .lbl{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;font-weight:600}
+.kpi .val{font-size:34px;font-weight:700;letter-spacing:-1px;margin:8px 0 12px}
+.kpi .bar{display:flex;height:6px;border-radius:4px;overflow:hidden;background:#0b0f16}
+.kpi .bar i{display:block}
+.kpi .split{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-top:9px}
+.kpi .split span b{color:var(--txt);font-weight:600}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.r{background:var(--rent)} .s{background:var(--sale)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:14px}
+.ctitle{font-size:14px;font-weight:600;margin-bottom:4px}
+.cnote{font-size:12px;color:var(--dim);margin-bottom:16px}
+.chartbox{position:relative;height:250px}
+
+/* funnel */
+.funnel{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.fstep{display:flex;align-items:center;gap:12px}
+.fname{width:92px;font-size:12px;color:var(--mut);flex-shrink:0}
+.ftrack{flex:1;background:#0b0f16;border-radius:6px;height:34px;position:relative;overflow:hidden}
+.ffill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:12px;font-size:13px;font-weight:600;color:#08131f;min-width:52px}
+.fconv{width:58px;text-align:right;font-size:12px;color:var(--dim);flex-shrink:0}
+
+/* calls */
+.calls{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:center}
+.ring{position:relative;width:200px;height:200px}
+.ring .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .num{font-size:44px;font-weight:700;letter-spacing:-1.5px}
+.ring .cap{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+.callstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cs{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px}
+.cs .p{font-size:30px;font-weight:700;letter-spacing:-1px}
+.cs .n{font-size:12px;color:var(--mut);margin-top:4px}
+.cs .m{font-size:11px;color:var(--dim);margin-top:8px}
+.pbar{height:5px;border-radius:3px;background:#0b0f16;margin-top:10px;overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:3px}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:right;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);font-weight:600;padding:0 0 10px;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+td{padding:11px 0;border-bottom:1px solid #1b212c;text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--txt);font-weight:500}
+td.mut{color:var(--mut)}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600}
+.pill.r{background:rgba(79,140,255,.15);color:var(--rent)}
+.pill.s{background:rgba(255,159,67,.15);color:var(--sale)}
+
+.insights{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ins{border-left:3px solid var(--line);padding-left:14px}
+.ins.warn{border-color:var(--bad)} .ins.good{border-color:var(--ok)} .ins.info{border-color:var(--rent)}
+.ins b{display:block;font-size:14px;margin-bottom:6px}
+.ins p{font-size:13px;color:var(--mut);line-height:1.55}
+footer{margin-top:40px;font-size:11px;color:var(--dim);text-align:center}
+
+.scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.hint{display:none;font-size:11px;color:var(--dim);margin-top:10px}
+
+/* ---------- планшет ---------- */
+@media(max-width:1024px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .grid3,.grid2,.insights{grid-template-columns:1fr}
+  .calls{grid-template-columns:1fr;gap:22px;justify-items:center}
+  .callstats{width:100%}
+}
+
+/* ---------- телефон ---------- */
+@media(max-width:640px){
+  body{padding:18px 14px 40px}
+  header{flex-direction:column;align-items:stretch;gap:12px;margin-bottom:20px}
+  h1{font-size:20px;line-height:1.25}
+  .sub{font-size:12px}
+  .period{padding:10px 12px;font-size:12px;line-height:1.7}
+  h2{margin:26px 0 10px;font-size:11px;letter-spacing:1.2px}
+  .card{padding:16px;border-radius:12px}
+
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi .lbl{font-size:11px;letter-spacing:.3px}
+  .kpi .val{font-size:26px;margin:6px 0 10px}
+  .kpi .split{flex-direction:column;gap:3px;font-size:11px;margin-top:8px}
+
+  .ring{width:170px;height:170px}
+  .ring .num{font-size:38px}
+  .callstats{grid-template-columns:1fr;gap:10px}
+  .cs{padding:14px;display:grid;grid-template-columns:auto 1fr;
+      grid-template-areas:"p n" "m m" "b b";align-items:center;column-gap:14px}
+  .cs .p{grid-area:p;font-size:26px}
+  .cs .n{grid-area:n;margin-top:0;font-size:13px}
+  .cs .m{grid-area:m;margin-top:6px}
+  .cs .pbar{grid-area:b}
+
+  .fname{width:74px;font-size:11px}
+  .ftrack{height:30px}
+  .ffill{font-size:12px;padding-left:9px;min-width:44px}
+  .fconv{width:46px;font-size:11px}
+
+  .chartbox{height:230px}
+  .ctitle{font-size:13px}
+  .pill{font-size:10px}
+
+  .scrollx{margin:0 -16px;padding:0 16px}
+  .scrollx table{min-width:500px}
+  #summary .scrollx table{min-width:760px}
+  .hint{display:block}
+  th{font-size:10px;padding-bottom:8px}
+  td{padding:10px 0;font-size:12px}
+  th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:var(--panel);padding-right:14px;box-shadow:8px 0 8px -8px rgba(0,0,0,.6)}
+
+  .insights{gap:20px}
+  .ins p{font-size:12.5px}
+  footer{margin-top:28px;line-height:1.6}
+}
+
+@media(max-width:370px){
+  .kpis{grid-template-columns:1fr}
+  .kpi .val{font-size:30px}
+  .kpi .split{flex-direction:row}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>Дашборд эффективности объявлений</h1>
+    <div class="sub">Авито · Москва · Квартиры — аренда и продажа</div>
+  </div>
+  <div class="period">Период: <b>10.08.2026 — 16.08.2026</b> &nbsp;·&nbsp; Объявлений: <b>357</b></div>
+</header>
+
+<!-- ===== KPI ===== -->
+<h2>Ключевые показатели</h2>
+<div class="kpis">
+  <div class="card kpi">
+    <div class="lbl">Просмотры</div>
+    <div class="val">10 536</div>
+    <div class="bar"><i style="background:var(--rent);width:63.3%"></i><i style="background:var(--sale);width:36.7%"></i></div>
+    <div class="split"><span><i class="dot r"></i>Аренда <b>6 669</b></span><span><i class="dot s"></i>Продажа <b>3 867</b></span></div>
+  </div>
+  <div class="card kpi">
+    <div class="lbl">Контакты</div>
+    <div class="val">114</div>
+    <div class="bar"><i style="background:var(--rent);width:83.3%"></i><i style="background:var(--sale);width:16.7%"></i></div>
+    <div class="split"><span><i class="dot r"></i>Аренда <b>95</b></span><span><i class="dot s"></i>Продажа <b>19</b></span></div>
+  </div>
+  <div class="card kpi">
+    <div class="lbl">Избранное</div>
+    <div class="val">663</div>
+    <div class="bar"><i style="background:var(--rent);width:58.2%"></i><i style="background:var(--sale);width:41.8%"></i></div>
+    <div class="split"><span><i class="dot r"></i>Аренда <b>386</b></span><span><i class="dot s"></i>Продажа <b>277</b></span></div>
+  </div>
+  <div class="card kpi">
+    <div class="lbl">Звонки</div>
+    <div class="val">30</div>
+    <div class="bar"><i style="background:var(--ok);width:77%"></i><i style="background:var(--bad);width:23%"></i></div>
+    <div class="split"><span>Отвечено <b>77%</b></span><span>Пропущено <b>23%</b></span></div>
+  </div>
+</div>
+
+<!-- ===== ЗВОНКИ ===== -->
+<h2>Звонки</h2>
+<div class="card">
+  <div class="calls">
+    <div class="ring">
+      <canvas id="callRing"></canvas>
+      <div class="center"><div class="num">30</div><div class="cap">звонков</div></div>
+    </div>
+    <div class="callstats">
+      <div class="cs">
+        <div class="p" style="color:var(--rent)">80%</div>
+        <div class="n">Первичных обращений</div>
+        <div class="m">24 новых лида · 6 повторных</div>
+        <div class="pbar"><i style="background:var(--rent);width:80%"></i></div>
+      </div>
+      <div class="cs">
+        <div class="p" style="color:var(--ok)">77%</div>
+        <div class="n">Отвеченных</div>
+        <div class="m">23 разговора · средняя длительность 2:18</div>
+        <div class="pbar"><i style="background:var(--ok);width:77%"></i></div>
+      </div>
+      <div class="cs">
+        <div class="p" style="color:var(--bad)">23%</div>
+        <div class="n">Пропущенных</div>
+        <div class="m">7 потерянных контактов</div>
+        <div class="pbar"><i style="background:var(--bad);width:23%"></i></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:22px;border-top:1px solid var(--line);padding-top:18px">
+    <div class="ctitle">Звонки по дням</div>
+    <div class="cnote">10–16 августа · отвеченные и пропущенные</div>
+    <div class="chartbox" style="height:200px"><canvas id="callsDaily"></canvas></div>
+  </div>
+</div>
+
+<!-- ===== ВОРОНКИ ===== -->
+<h2>Воронка: аренда vs продажа</h2>
+<div class="grid2">
+  <div class="card">
+    <div class="ctitle"><i class="dot r"></i>Аренда <span class="pill r">306 объявлений</span></div>
+    <div class="cnote">Показы → просмотры → контакты</div>
+    <div class="funnel">
+      <div class="fstep"><div class="fname">Показы</div><div class="ftrack"><div class="ffill" style="background:linear-gradient(90deg,#4f8cff,#7aa9ff);width:100%">27 742</div></div><div class="fconv">—</div></div>
+      <div class="fstep"><div class="fname">Просмотры</div><div class="ftrack"><div class="ffill" style="background:linear-gradient(90deg,#4f8cff,#7aa9ff);width:24%">6 669</div></div><div class="fconv">24,0%</div></div>
+      <div class="fstep"><div class="fname">Избранное</div><div class="ftrack"><div class="ffill" style="background:linear-gradient(90deg,#c77dff,#dda6ff);width:5.8%;color:#fff">386</div></div><div class="fconv">5,8%</div></div>
+      <div class="fstep"><div class="fname">Контакты</div><div class="ftrack"><div class="ffill" style="background:linear-gradient(90deg,#2ecc71,#5fe39a);width:3%;color:#fff">95</div></div><div class="fconv">1,42%</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle"><i class="dot s"></i>Продажа <span class="pill s">51 объявление</span></div>
+    <div class="cnote">Показы → просмотры → контакты</div>
+    <div class="funnel">
+      <div class="fstep"><div class="fname">Показы</div><div class="ftrack"><div class="ffill" style="background:linear-gradient(90deg,#ff9f43,#ffc078);width:100%">15 205</div></div><div class="fconv">—</div></div>
+      <div class="fstep"><div class="fname">Просмотры</div><div class="ftrack"><div class="ffill" style="background:linear-gradient(90deg,#ff9f43,#ffc078);width:25.4%">3 867</div></div><div class="fconv">25,4%</div></div>
+      <div class="fstep"><div class="fname">Избранное</div><div class="ftrack"><div class="ffill" style="background:linear-gradient(90deg,#c77dff,#dda6ff);width:7.2%;color:#fff">277</div></div><div class="fconv">7,2%</div></div>
+      <div class="fstep"><div class="fname">Контакты</div><div class="ftrack"><div class="ffill" style="background:linear-gradient(90deg,#2ecc71,#5fe39a);width:2.5%;color:#fff">19</div></div><div class="fconv">0,49%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ГРАФИКИ ===== -->
+<h2>Сравнение направлений</h2>
+<div class="grid3">
+  <div class="card">
+    <div class="ctitle">Просмотры · контакты · избранное</div>
+    <div class="cnote">Доля аренды и продажи в каждой метрике</div>
+    <div class="chartbox"><canvas id="metricsChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">Стоимость результата, ₽</div>
+    <div class="cnote">Расход на объявления ÷ результат</div>
+    <div class="chartbox"><canvas id="costChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">Аренда: просмотры по комнатности</div>
+    <div class="cnote">Где сосредоточен спрос</div>
+    <div class="chartbox"><canvas id="roomsChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ===== ТАБЛИЦЫ ===== -->
+<h2>Топ объявлений</h2>
+<div class="grid2">
+  <div class="card">
+    <div class="ctitle"><i class="dot r"></i>Аренда — топ-8 по просмотрам</div>
+    <div class="cnote">&nbsp;</div>
+    <div class="scrollx"><table>
+      <thead><tr><th>Адрес</th><th>Цена</th><th>Просм.</th><th>Конт.</th><th>Избр.</th></tr></thead>
+      <tbody>
+        <tr><td>Ленинский пр-т, 83к1</td><td class="mut">115 000</td><td>379</td><td style="color:var(--ok);font-weight:600">14</td><td>36</td></tr>
+        <tr><td>Гончарная ул., 5</td><td class="mut">175 000</td><td>311</td><td style="color:var(--ok);font-weight:600">7</td><td>20</td></tr>
+        <tr><td>Истринская ул., 8к3</td><td class="mut">165 000</td><td>240</td><td>1</td><td>17</td></tr>
+        <tr><td>Серпуховский Вал, 21к4</td><td class="mut">570 000</td><td>187</td><td>1</td><td>6</td></tr>
+        <tr><td>Береговой пр., 5Ак2</td><td class="mut">115 000</td><td>185</td><td>1</td><td>19</td></tr>
+        <tr><td>Нежинская ул., 1к2</td><td class="mut">220 000</td><td>183</td><td>2</td><td>8</td></tr>
+        <tr><td>Павелецкая наб., 8Б</td><td class="mut">300 000</td><td>174</td><td style="color:var(--bad)">0</td><td>12</td></tr>
+        <tr><td>Бережковская наб., 12</td><td class="mut">180 000</td><td>173</td><td style="color:var(--ok);font-weight:600">4</td><td>12</td></tr>
+      </tbody>
+    </table></div>
+    <div class="hint">← проведите по таблице, чтобы увидеть все столбцы</div>
+  </div>
+  <div class="card">
+    <div class="ctitle"><i class="dot s"></i>Продажа — топ-8 по просмотрам</div>
+    <div class="cnote">&nbsp;</div>
+    <div class="scrollx"><table>
+      <thead><tr><th>Адрес</th><th>Цена, млн</th><th>Просм.</th><th>Конт.</th><th>Избр.</th></tr></thead>
+      <tbody>
+        <tr><td>Большая Бронная, 27/4</td><td class="mut">155</td><td>527</td><td>1</td><td>20</td></tr>
+        <tr><td>Муравская ул., 28к3</td><td class="mut">48,5</td><td>467</td><td style="color:var(--bad)">0</td><td>28</td></tr>
+        <tr><td>1-й Красногвардейский, 21с1</td><td class="mut">59</td><td>454</td><td>2</td><td>33</td></tr>
+        <tr><td>Шмитовский пр., 39к8</td><td class="mut">65</td><td>280</td><td>2</td><td>38</td></tr>
+        <tr><td>наб. Тараса Шевченко, 1</td><td class="mut">86</td><td>280</td><td>1</td><td>30</td></tr>
+        <tr><td>пр-т Вернадского, 80</td><td class="mut">35</td><td>255</td><td style="color:var(--ok);font-weight:600">5</td><td>29</td></tr>
+        <tr><td>Лаврушинский пер., 17с4</td><td class="mut">245</td><td>215</td><td>1</td><td>12</td></tr>
+        <tr><td>Рождественский б-р, 5/7с1</td><td class="mut">78</td><td>120</td><td>1</td><td>13</td></tr>
+      </tbody>
+    </table></div>
+    <div class="hint">← проведите по таблице, чтобы увидеть все столбцы</div>
+  </div>
+</div>
+
+<!-- ===== СВОДКА ===== -->
+<h2>Сводная таблица</h2>
+<div class="card" id="summary">
+  <div class="scrollx"><table>
+    <thead><tr><th>Направление</th><th>Объяв.</th><th>Показы</th><th>Просмотры</th><th>Избранное</th><th>Контакты</th><th>CR в контакт</th><th>Расход, ₽</th><th>Цена контакта</th></tr></thead>
+    <tbody>
+      <tr><td><i class="dot r"></i>Аренда</td><td>306</td><td>27 742</td><td>6 669</td><td>386</td><td>95</td><td>1,42%</td><td>16 614</td><td>175 ₽</td></tr>
+      <tr><td><i class="dot s"></i>Продажа</td><td>51</td><td>15 205</td><td>3 867</td><td>277</td><td>19</td><td style="color:var(--bad)">0,49%</td><td>13 941</td><td style="color:var(--bad)">734 ₽</td></tr>
+      <tr style="font-weight:700"><td>Итого</td><td>357</td><td>42 947</td><td>10 536</td><td>663</td><td>114</td><td>1,08%</td><td>30 555</td><td>268 ₽</td></tr>
+    </tbody>
+  </table></div>
+  <div class="hint">← проведите по таблице, чтобы увидеть все столбцы</div>
+</div>
+
+<!-- ===== ВЫВОДЫ ===== -->
+<h2>Выводы</h2>
+<div class="card insights">
+  <div class="ins warn">
+    <b>293 объявления без контактов</b>
+    <p>82% портфеля не дало ни одного обращения при расходе <b>23,5 тыс ₽</b>. Основная масса — аренда: 255 из 306 объявлений.</p>
+  </div>
+  <div class="ins info">
+    <b>Продажа: интерес есть, контакта нет</b>
+    <p>Избранное 7,2% от просмотров — выше, чем у аренды (5,8%). Но до контакта доходит лишь 0,49%. Люди сохраняют объект и уходят думать.</p>
+  </div>
+  <div class="ins good">
+    <b>7 пропущенных звонков</b>
+    <p>Из них 3 подряд 13 августа — похоже на выпавший день. При 80% первичных обращений это потеря именно новых клиентов.</p>
+  </div>
+</div>
+
+<footer>Источник: выгрузка статистики Авито 10.08–16.08.2026 · история звонков за тот же период (30 записей).</footer>
+</div>
+
+<script>
+Chart.defaults.color='#8b98a9';
+Chart.defaults.font.family='-apple-system,BlinkMacSystemFont,Segoe UI,Inter,Arial,sans-serif';
+Chart.defaults.font.size=window.matchMedia('(max-width:640px)').matches?10:12;
+Chart.defaults.plugins.legend.labels.boxWidth=10;
+const grid={color:'#242c3a'},noGrid={display:false};
+const leg={position:'bottom',labels:{boxWidth:10,usePointStyle:true,pointStyle:'circle'}};
+
+new Chart(document.getElementById('callRing'),{
+  type:'doughnut',
+  data:{labels:['Отвечено','Пропущено'],datasets:[{data:[77,23],backgroundColor:['#2ecc71','#ff5c5c'],borderWidth:0,cutout:'76%'}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+c.raw+'%'}}}}
+});
+
+new Chart(document.getElementById('callsDaily'),{
+  type:'bar',
+  data:{labels:['10.08','11.08','12.08','13.08','14.08','15.08','16.08'],datasets:[
+    {label:'Отвечено',data:[5,5,8,0,4,1,0],backgroundColor:'#2ecc71',borderRadius:4},
+    {label:'Пропущено',data:[1,1,0,3,1,0,1],backgroundColor:'#ff5c5c',borderRadius:4}]},
+  options:{maintainAspectRatio:false,scales:{x:{stacked:true,grid:noGrid,border:{display:false}},y:{stacked:true,grid:grid,border:{display:false},ticks:{stepSize:2}}},plugins:{legend:leg}}
+});
+
+new Chart(document.getElementById('metricsChart'),{
+  type:'bar',
+  data:{labels:['Просмотры','Контакты','Избранное'],datasets:[
+    {label:'Аренда',data:[6669,95,386],backgroundColor:'#4f8cff',borderRadius:5},
+    {label:'Продажа',data:[3867,19,277],backgroundColor:'#ff9f43',borderRadius:5}]},
+  options:{maintainAspectRatio:false,scales:{y:{type:'logarithmic',grid:grid,border:{display:false}},x:{grid:noGrid,border:{display:false}}},plugins:{legend:leg}}
+});
+
+new Chart(document.getElementById('costChart'),{
+  type:'bar',
+  data:{labels:['Цена просмотра','Цена избранного','Цена контакта'],datasets:[
+    {label:'Аренда',data:[2.5,43.0,174.9],backgroundColor:'#4f8cff',borderRadius:5},
+    {label:'Продажа',data:[3.6,50.3,733.7],backgroundColor:'#ff9f43',borderRadius:5}]},
+  options:{indexAxis:'y',maintainAspectRatio:false,scales:{x:{type:'logarithmic',grid:grid,border:{display:false}},y:{grid:noGrid,border:{display:false}}},plugins:{legend:leg,tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw+' ₽'}}}}
+});
+
+new Chart(document.getElementById('roomsChart'),{
+  type:'bar',
+  data:{labels:['Студия','1к','2к','3к','4к','5к','6к+'],datasets:[
+    {label:'Просмотры',data:[61,91,1474,2732,1083,349,879],backgroundColor:'#4f8cff',borderRadius:5,order:2},
+    {label:'Контакты',data:[1,3,21,52,12,1,5],backgroundColor:'#2ecc71',type:'line',borderColor:'#2ecc71',yAxisID:'y1',tension:.35,pointRadius:4,order:1}]},
+  options:{maintainAspectRatio:false,scales:{y:{grid:grid,border:{display:false}},y1:{position:'right',grid:noGrid,border:{display:false}},x:{grid:noGrid,border:{display:false}}},plugins:{legend:leg}}
+});
+
+window.addEventListener('orientationchange',()=>{setTimeout(()=>Object.values(Chart.instances).forEach(c=>c.resize()),250)});
+</script>
+</body>
+</html>
